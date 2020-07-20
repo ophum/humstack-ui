@@ -45,9 +45,29 @@ export class NamespaceClient extends HTTPClient {
         };
     }
 
-    async Update() {}
+    async Update(
+        request: NamespaceUpdateRequest
+    ): Promise<NamespaceUpdateResponse> {
+        const res = await this._put(
+            this.getPath(request.meta.group!, request.meta.id),
+            request
+        );
+        return {
+            ok: res.ok,
+            ...(await res.json()),
+        };
+    }
 
-    async Delete() {}
+    async Delete(
+        groupID: string,
+        namespaceID: string
+    ): Promise<NamespaceDeleteResponse> {
+        const res = await this._delete(this.getPath(groupID, namespaceID), {});
+        return {
+            ok: res.ok,
+            ...(await res.json()),
+        };
+    }
 }
 
 /**
@@ -56,6 +76,9 @@ export class NamespaceClient extends HTTPClient {
 
 // Create
 export type NamespaceCreateRequest = Namespace;
+
+// Update
+export type NamespaceUpdateRequest = Namespace;
 
 /**
  * Response
@@ -92,3 +115,23 @@ export interface NamespaceCreateData {
 }
 
 export interface NamespaceCreateError {}
+
+// Update
+export type NamespaceUpdateResponse = Response<
+    NamespaceUpdateData,
+    NamespaceUpdateError
+>;
+export interface NamespaceUpdateData {
+    namespace: Namespace;
+}
+
+export interface NamespaceUpdateError {}
+
+// Delete
+export type NamespaceDeleteResponse = Response<
+    NamespaceDeleteData,
+    NamespaceDeleteError
+>;
+
+export interface NamespaceDeleteData {}
+export interface NamespaceDeleteError {}
