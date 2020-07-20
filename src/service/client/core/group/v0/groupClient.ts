@@ -34,39 +34,33 @@ export class GroupClient extends HTTPClient {
 export type GroupCreateRequest = Group;
 
 // response
-export type GroupListResponse = Response<
-    GroupListSuccessData,
-    GroupListErrorData
->;
-export interface GroupListSuccessData {
+export type GroupListResponse = Response<GroupListData, GroupListError>;
+export interface GroupListData {
     groups: Group[];
 }
 
-export interface GroupListErrorData {}
+export interface GroupListError {}
 
-export type GroupGetResponse = Response<GroupGetSuccessData, GroupGetErrorData>;
-export interface GroupGetSuccessData {
+export type GroupGetResponse = Response<GroupGetData, GroupGetError>;
+export interface GroupGetData {
     group: Group;
 }
 
-export interface GroupGetErrorData {}
+export interface GroupGetError {}
 
-export type GroupCreateResponse = Response<
-    GroupCreateSuccessData,
-    GroupCreateErrorData
->;
-export interface GroupCreateSuccessData {}
-export interface GroupCreateErrorData {}
+export type GroupCreateResponse = Response<GroupCreateData, GroupCreateError>;
+export interface GroupCreateData {
+    group: Group;
+}
+export interface GroupCreateError {}
 
-export type GroupUpdateResponse = Response<
-    GroupGetSuccessData,
-    GroupUpdateErrorData
->;
-export interface GroupUpdateErrorData {}
+export type GroupUpdateResponse = Response<GroupGetData, GroupUpdateError>;
+export interface GroupUpdateDate {
+    group: Group;
+}
 
-export type GroupDeleteResponse = Response<
-    GroupDeleteSuccessData,
-    GroupDeleteErrorData
->;
-export interface GroupDeleteSuccessData {}
-export interface GroupDeleteErrorData {}
+export interface GroupUpdateError {}
+
+export type GroupDeleteResponse = Response<GroupDeleteData, GroupDeleteError>;
+export interface GroupDeleteData {}
+export interface GroupDeleteError {}

@@ -9,9 +9,10 @@ import { RegisterPage } from "./components/pages/Register";
 import { TopPage } from "./components/pages/Top";
 import { Clients } from "./service/client/clients";
 import { GroupPage } from "./components/pages/Group";
+import { NamespaceListPage } from "./components/pages/Namespace";
 
 export const { useGlobalState } = createGlobalState({
-    client: new Clients("http://localhost:8080/api/v0"),
+    client: new Clients("http://localhost:8080"),
     isLogin: false,
 });
 
@@ -41,7 +42,11 @@ function App() {
                         path="/groups/:groupID"
                         component={GroupPage}
                     />
-                    <Route exact path="/groups/:groupID/namespaces" />
+                    <Route
+                        exact
+                        path="/groups/:groupID/namespaces"
+                        component={NamespaceListPage}
+                    />
                     <Route
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID"

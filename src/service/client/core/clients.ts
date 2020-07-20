@@ -1,13 +1,20 @@
 import { GroupClient } from "./group/v0/groupClient";
+import { NamespaceClient } from "./namespace/v0/namespaceClient";
 
 export class CoreV0Clients {
-    private groupV0Client: GroupClient;
+    private groupClient: GroupClient;
+    private namespaceClient: NamespaceClient;
 
     constructor(baseURL: string) {
-        this.groupV0Client = new GroupClient(baseURL);
+        this.groupClient = new GroupClient(baseURL);
+        this.namespaceClient = new NamespaceClient(baseURL);
     }
 
-    GroupV0() {
-        return this.groupV0Client;
+    Group() {
+        return this.groupClient;
+    }
+
+    Namespace() {
+        return this.namespaceClient;
     }
 }

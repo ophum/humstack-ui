@@ -17,7 +17,7 @@ export function LoginPage(props: LoginPageProps) {
     };
 
     const clickLoginButton = async () => {
-        const res = await client.CoreV0().GroupV0().Get(groupID);
+        const res = await client.CoreV0().Group().Get(groupID);
         if (res.ok) {
             setIsLogin(true);
             history.push(`/groups/${groupID}`);

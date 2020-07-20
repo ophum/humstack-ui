@@ -18,7 +18,7 @@ export function GroupPage(props: GroupPageProps) {
         if (groupID) {
             clinet
                 .CoreV0()
-                .GroupV0()
+                .Group()
                 .Get(groupID!)
                 .then((res) => {
                     if (!res.ok || res.data === undefined) {

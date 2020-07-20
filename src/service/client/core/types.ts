@@ -6,3 +6,10 @@ export interface Group {
 
     spec: GroupSpec;
 }
+
+export interface NamespaceSpec {}
+
+export interface Namespace {
+    meta: Meta;
+    spec: NamespaceSpec;
+}

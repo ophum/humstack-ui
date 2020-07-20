@@ -4,7 +4,7 @@ export class Clients {
     private coreV0Clients: CoreV0Clients;
 
     constructor(baseURL: string) {
-        this.coreV0Clients = new CoreV0Clients(baseURL);
+        this.coreV0Clients = new CoreV0Clients(baseURL + "/api/v0");
     }
 
     CoreV0() {

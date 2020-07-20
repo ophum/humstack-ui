@@ -18,7 +18,7 @@ export function RegisterPage(props: RegisterPageProps) {
     const clickRegisterButton = async () => {
         const res = await client
             .CoreV0()
-            .GroupV0()
+            .Group()
             .Create({
                 meta: {
                     id: groupID,
