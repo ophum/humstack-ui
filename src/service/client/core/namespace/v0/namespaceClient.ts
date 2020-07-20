@@ -1,6 +1,7 @@
 import HTTPClient from "../../../base/http";
 import { Namespace } from "../../types";
 import { Response } from "../../../meta/response";
+import { APIType } from "../../../meta/meta";
 
 export class NamespaceClient extends HTTPClient {
     private getPath(groupID: string, namespaceID: string): string {
@@ -17,11 +18,22 @@ export class NamespaceClient extends HTTPClient {
         };
     }
 
-    async Get() {}
+    async Get(
+        groupID: string,
+        namespaceID: string
+    ): Promise<NamespaceGetResponse> {
+        const res = await this._get(this.getPath(groupID, namespaceID));
+
+        return {
+            ok: res.ok,
+            ...(await res.json()),
+        };
+    }
 
     async Create(
         request: NamespaceCreateRequest
     ): Promise<NamespaceCreateResponse> {
+        request.meta.apiType = APIType.NamespaceV0;
         const res = await this._post(
             this.getPath(request.meta.group!, ""),
             request
@@ -58,6 +70,16 @@ export interface NamespaceListData {
     namespaces: Namespace[];
 }
 export interface NamespaceListError {}
+
+// Get
+export type NamespaceGetResponse = Response<
+    NamespaceGetData,
+    NamespaceGetError
+>;
+export interface NamespaceGetData {
+    namespace: Namespace;
+}
+export interface NamespaceGetError {}
 
 // Create
 export type NamespaceCreateResponse = Response<

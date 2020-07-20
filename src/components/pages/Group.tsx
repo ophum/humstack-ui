@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "@material-ui/core";
+import { Container, Button } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
 import { useGlobalState } from "../../App";
 import { Group } from "../../service/client/core/types";
@@ -35,9 +35,16 @@ export function GroupPage(props: GroupPageProps) {
         }
     }, [groupID]);
 
+    const clickNamespaceListButton = () => {
+        history.push(`/groups/${groupID}/namespaces`);
+    };
+
     return (
         <Container>
             {group !== undefined && group.meta !== undefined && group.meta.id}
+            <Button variant="contained" onClick={clickNamespaceListButton}>
+                NamespaceList
+            </Button>
         </Container>
     );
 }

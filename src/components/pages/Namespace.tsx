@@ -1,78 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { Container, TextField, Button } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
 import { useGlobalState } from "../../App";
 import { Namespace } from "../../service/client/core/types";
-import { networkInterfaces } from "os";
+import { Container, Typography } from "@material-ui/core";
+import { Meta } from "../../service/client/meta/meta";
 
-export interface NamespaceListPageProps {}
+export interface NamespacePageProps {}
 
-export function NamespaceListPage(props: NamespaceListPageProps) {
-    const { groupID } = useParams();
+export function NamespacePage(props: NamespacePageProps) {
     const history = useHistory();
-
-    const [clinet] = useGlobalState("client");
-    const [, setIsLogin] = useGlobalState("isLogin");
-    const [nsList, setNSList] = useState([] as Namespace[]);
-
-    const [newNS, setNewNS] = useState({
-        meta: {
-            id: "",
-        },
-        spec: {},
-    } as Namespace);
+    const { groupID, namespaceID } = useParams();
+    const [client] = useGlobalState("client");
+    const [ns, setNS] = useState({} as Namespace);
 
     const reload = () => {
-        clinet
-            .CoreV0()
-            .Namespace()
-            .List(groupID!)
-            .then((res) => {
-                if (!res.ok || !res.data) {
-                    history.push(`/groups/${groupID}`);
-                    return;
-                }
-                setNSList(res.data?.namespaces);
-            });
-    };
-    useEffect(() => reload(), [groupID]);
+        (async () => {
+            const nsRes = await client
+                .CoreV0()
+                .Namespace()
+                .Get(groupID, namespaceID);
+            if (!nsRes.ok || !nsRes.data) {
+                history.push(`/groups/${groupID}/namespaces`);
+                return;
+            }
 
-    const changeNewNSName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setNewNS({
-            ...newNS,
-            meta: {
-                id: e.target.value,
-            },
-        });
+            setNS(nsRes.data.namespace);
+        })();
     };
+    useEffect(() => reload(), []);
 
-    const clickCreateNamespaceButton = async () => {
-        const res = await clinet.CoreV0().Namespace().Create(newNS);
-        if (res.ok) {
-            reload();
-        }
-    };
-    return (
+    return ns.meta === undefined ? (
+        <></>
+    ) : (
         <Container>
-            <div>
-                <TextField
-                    value={newNS.meta.id}
-                    label="id"
-                    onChange={changeNewNSName}
-                />
-                <Button
-                    variant="contained"
-                    onClick={clickCreateNamespaceButton}
-                >
-                    Create
-                </Button>
-            </div>
-            <tr>
-                {nsList.length === 0 && <>Not Found</>}
-                {nsList.map((v, k) => {
-                    return <td key={k}>{v.meta.id}</td>;
-                })}
-            </tr>
+            <Typography variant="h4">Namespace: {ns.meta.id}</Typography>
         </Container>
     );
 }

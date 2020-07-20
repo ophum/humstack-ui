@@ -9,7 +9,8 @@ import { RegisterPage } from "./components/pages/Register";
 import { TopPage } from "./components/pages/Top";
 import { Clients } from "./service/client/clients";
 import { GroupPage } from "./components/pages/Group";
-import { NamespaceListPage } from "./components/pages/Namespace";
+import { NamespaceListPage } from "./components/pages/NamespaceList";
+import { NamespacePage } from "./components/pages/Namespace";
 
 export const { useGlobalState } = createGlobalState({
     client: new Clients("http://localhost:8080"),
@@ -50,6 +51,7 @@ function App() {
                     <Route
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID"
+                        component={NamespacePage}
                     />
                     <Route
                         exact
