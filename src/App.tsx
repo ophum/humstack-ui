@@ -1,18 +1,17 @@
 import { CssBaseline } from "@material-ui/core";
 import { createBrowserHistory } from "history";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { createGlobalState } from "react-hooks-global-state";
 import { Route, Router, Switch } from "react-router-dom";
 import { Header } from "./components/Header";
+import { GroupPage } from "./components/pages/groups/Group";
+import { NamespacePage } from "./components/pages/groups/namespaces/Namespace";
+import { NamespaceListPage } from "./components/pages/groups/namespaces/NamespaceList";
+import { NetworkListPage } from "./components/pages/groups/namespaces/NetworkList";
 import { LoginPage } from "./components/pages/Login";
 import { RegisterPage } from "./components/pages/Register";
 import { TopPage } from "./components/pages/Top";
 import { Clients } from "./service/client/clients";
-import { GroupPage } from "./components/pages/groups/Group";
-import { NamespaceListPage } from "./components/pages/groups/namespaces/NamespaceList";
-import { NamespacePage } from "./components/pages/groups/namespaces/Namespace";
-import { SideMenu } from "./components/SideMenu";
-import { Namespace } from "./service/client/core/types";
 
 export const { useGlobalState } = createGlobalState({
     client: new Clients("http://localhost:8080"),
@@ -64,6 +63,7 @@ function App() {
                     <Route
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID/networks"
+                        component={NetworkListPage}
                     />
                     <Route
                         exact

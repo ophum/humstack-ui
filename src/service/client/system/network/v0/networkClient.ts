@@ -44,9 +44,8 @@ export class NetworkClient extends HTTPClient {
     ): Promise<NetworkCreateResponse> {
         const groupID = request.meta.group!;
         const namespaceID = request.meta.namespace!;
-        const networkID = request.meta.id;
         const res = await this._post(
-            this.getPath(groupID, namespaceID, networkID),
+            this.getPath(groupID, namespaceID, ""),
             request
         );
 
