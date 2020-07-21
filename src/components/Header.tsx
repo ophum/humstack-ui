@@ -1,6 +1,6 @@
-import * as React from "react";
+import { AppBar, Button, Toolbar, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import * as React from "react";
 import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,15 +31,15 @@ export const Header = (props: HeaderProps) => {
     const classes = useStyles();
     const history = useHistory();
 
-    const clickLoginButton = () => {
+    const handleClickLoginButton = () => {
         history.push("/login");
     };
 
-    const clickRegisterButton = () => {
+    const handleClickRegisterButton = () => {
         history.push("/register");
     };
 
-    const clickLogoutButton = () => {
+    const handleClickLogoutButton = () => {
         props.logoutProcess();
         history.push("/");
     };
@@ -49,11 +49,12 @@ export const Header = (props: HeaderProps) => {
                 <Typography variant="h6" className={classes.title}>
                     humstack
                 </Typography>
+
                 {props.isLogin ? (
                     <Button
                         variant="text"
                         color="inherit"
-                        onClick={clickLogoutButton}
+                        onClick={handleClickLogoutButton}
                     >
                         Logout
                     </Button>
@@ -62,14 +63,14 @@ export const Header = (props: HeaderProps) => {
                         <Button
                             className={classes.loginButton}
                             color="inherit"
-                            onClick={clickLoginButton}
+                            onClick={handleClickLoginButton}
                         >
                             Login
                         </Button>
                         <Button
                             variant="outlined"
                             color="inherit"
-                            onClick={clickRegisterButton}
+                            onClick={handleClickRegisterButton}
                         >
                             Register
                         </Button>

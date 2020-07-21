@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Container, Button } from "@material-ui/core";
 import { useParams, useHistory } from "react-router";
-import { useGlobalState } from "../../App";
-import { Group } from "../../service/client/core/types";
+import { useGlobalState } from "../../../App";
+import { Group } from "../../../service/client/core/types";
 
 export interface GroupPageProps {}
 

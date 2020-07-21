@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
-import { useGlobalState } from "../../App";
-import { Namespace } from "../../service/client/core/types";
+import { useGlobalState } from "../../../../App";
+import { Namespace } from "../../../../service/client/core/types";
 import { Container, Typography } from "@material-ui/core";
-import { Meta } from "../../service/client/meta/meta";
 
 export interface NamespacePageProps {}
 
@@ -32,8 +31,10 @@ export function NamespacePage(props: NamespacePageProps) {
     return ns.meta === undefined ? (
         <></>
     ) : (
-        <Container>
-            <Typography variant="h4">Namespace: {ns.meta.id}</Typography>
-        </Container>
+        <>
+            <Container>
+                <Typography variant="h4">Namespace: {ns.meta.id}</Typography>
+            </Container>
+        </>
     );
 }

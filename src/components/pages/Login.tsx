@@ -8,6 +8,7 @@ export interface LoginPageProps {}
 export function LoginPage(props: LoginPageProps) {
     const history = useHistory();
     const [client] = useGlobalState("client");
+    const [, setSelectedIDs] = useGlobalState("selectedIDs");
     const [, setIsLogin] = useGlobalState("isLogin");
 
     const [groupID, setGroupID] = useState("");
@@ -20,6 +21,10 @@ export function LoginPage(props: LoginPageProps) {
         const res = await client.CoreV0().Group().Get(groupID);
         if (res.ok) {
             setIsLogin(true);
+            setSelectedIDs({
+                groupID: groupID,
+                namespaceID: "",
+            });
             history.push(`/groups/${groupID}`);
         }
     };

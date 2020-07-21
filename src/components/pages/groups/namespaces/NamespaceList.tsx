@@ -12,8 +12,8 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { useGlobalState } from "../../App";
-import { Namespace } from "../../service/client/core/types";
+import { useGlobalState } from "../../../../App";
+import { Namespace } from "../../../../service/client/core/types";
 
 export interface NamespaceListPageProps {}
 
