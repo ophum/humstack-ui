@@ -1,6 +1,7 @@
 import HTTPClient from "../../../base/http";
 import { Response } from "../../../meta/response";
 import { Group } from "../../types";
+import { APIType } from "../../../meta/meta";
 
 export class GroupClient extends HTTPClient {
     constructor(baseURL: string) {
@@ -18,6 +19,7 @@ export class GroupClient extends HTTPClient {
     }
 
     async Create(request: GroupCreateRequest): Promise<GroupCreateResponse> {
+        request.meta.apiType = APIType.GroupV0;
         const res = await this._post("", request);
         return {
             ok: res.ok,

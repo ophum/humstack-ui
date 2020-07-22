@@ -1,6 +1,7 @@
 import HTTPClient from "../../../base/http";
 import { Response } from "../../../meta/response";
 import { Network } from "../../types";
+import { APIType } from "../../../meta/meta";
 
 export class NetworkClient extends HTTPClient {
     private getPath(
@@ -44,6 +45,7 @@ export class NetworkClient extends HTTPClient {
     ): Promise<NetworkCreateResponse> {
         const groupID = request.meta.group!;
         const namespaceID = request.meta.namespace!;
+        request.meta.apiType = APIType.NetworkV0;
         const res = await this._post(
             this.getPath(groupID, namespaceID, ""),
             request
@@ -61,6 +63,7 @@ export class NetworkClient extends HTTPClient {
         const groupID = request.meta.group!;
         const namespaceID = request.meta.namespace!;
         const networkID = request.meta.id;
+        request.meta.apiType = APIType.NetworkV0;
         const res = await this._put(
             this.getPath(groupID, namespaceID, networkID),
             request

@@ -1,6 +1,7 @@
 import HTTPClient from "../../../base/http";
 import { Response } from "../../../meta/response";
 import { BlockStorage } from "../../types";
+import { APIType } from "../../../meta/meta";
 
 export class BlockStorageClient extends HTTPClient {
     private getPath(
@@ -44,9 +45,9 @@ export class BlockStorageClient extends HTTPClient {
     ): Promise<BlockStorageCreateResponse> {
         const groupID = request.meta.group!;
         const namespaceID = request.meta.namespace!;
-        const blockstorageID = request.meta.id;
+        request.meta.apiType = APIType.BlockStorageV0;
         const res = await this._post(
-            this.getPath(groupID, namespaceID, blockstorageID),
+            this.getPath(groupID, namespaceID, ""),
             request
         );
 
@@ -62,6 +63,7 @@ export class BlockStorageClient extends HTTPClient {
         const groupID = request.meta.group!;
         const namespaceID = request.meta.namespace!;
         const blockstorageID = request.meta.id;
+        request.meta.apiType = APIType.BlockStorageV0;
         const res = await this._put(
             this.getPath(groupID, namespaceID, blockstorageID),
             request

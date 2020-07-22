@@ -1,6 +1,7 @@
 import HTTPClient from "../../../base/http";
 import { Response } from "../../../meta/response";
 import { VirtualMachine } from "../../types";
+import { APIType } from "../../../meta/meta";
 
 export class VirtualMachineClient extends HTTPClient {
     private getPath(
@@ -44,9 +45,9 @@ export class VirtualMachineClient extends HTTPClient {
     ): Promise<VirtualMachineCreateResponse> {
         const groupID = request.meta.group!;
         const namespaceID = request.meta.namespace!;
-        const virtualmachineID = request.meta.id;
+        request.meta.apiType = APIType.VirtualMachineV0;
         const res = await this._post(
-            this.getPath(groupID, namespaceID, virtualmachineID),
+            this.getPath(groupID, namespaceID, ""),
             request
         );
 
@@ -62,6 +63,7 @@ export class VirtualMachineClient extends HTTPClient {
         const groupID = request.meta.group!;
         const namespaceID = request.meta.namespace!;
         const virtualmachineID = request.meta.id;
+        request.meta.apiType = APIType.VirtualMachineV0;
         const res = await this._put(
             this.getPath(groupID, namespaceID, virtualmachineID),
             request
