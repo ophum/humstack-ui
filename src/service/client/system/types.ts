@@ -28,15 +28,15 @@ export interface BlockStorageFromHTTP {
 export enum BlockStorageFromType {
     BaseImage = "BaseImage",
     BlockStorage = "BlockStorage",
-    HTTP = "BlockStorage",
+    HTTP = "HTTP",
     Empty = "Empty",
 }
 
 export interface BlockStorageFrom {
     type: string;
-    baseImage: BlockStorageFromBaseImage;
-    blockStorage: BlockStorageFromBlockStorage;
-    HTTP: BlockStorageFromHTTP;
+    baseImage?: BlockStorageFromBaseImage;
+    blockStorage?: BlockStorageFromBlockStorage;
+    http?: BlockStorageFromHTTP;
 }
 
 export interface BlockStorageSpec {
@@ -50,6 +50,7 @@ export enum BlockStorageState {
     Used = "Used",
     Pending = "Pending",
     Deleting = "Deleting",
+    Unknown = "",
 }
 
 export interface BlockStorageStatus {

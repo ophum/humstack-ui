@@ -12,6 +12,7 @@ import { LoginPage } from "./components/pages/Login";
 import { RegisterPage } from "./components/pages/Register";
 import { TopPage } from "./components/pages/Top";
 import { Clients } from "./service/client/clients";
+import { BlockStorageListPage } from "./components/pages/groups/namespaces/BlockStorageList";
 
 export const { useGlobalState } = createGlobalState({
     client: new Clients("http://localhost:8080"),
@@ -72,6 +73,7 @@ function App() {
                     <Route
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID/blockstorages"
+                        component={BlockStorageListPage}
                     />
                     <Route
                         exact

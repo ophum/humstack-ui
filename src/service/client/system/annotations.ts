@@ -6,3 +6,12 @@ export enum NetworkV0Annotation {
 export enum NetworkV0NetworkType {
     Bridge = "Bridge",
 }
+
+export enum BlockStorageV0Annotation {
+    Type = "blockstoragev0/type",
+    NodeName = "blockstoragev0/node_name",
+}
+
+export enum BlockStorageV0Type {
+    Local = "Local",
+}
