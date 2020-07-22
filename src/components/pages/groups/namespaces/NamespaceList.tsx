@@ -14,6 +14,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useGlobalState } from "../../../../App";
 import { Namespace } from "../../../../service/client/core/types";
+import { HeadMenu, HeadMenuActive } from "./HeadMenu";
 
 export interface NamespaceListPageProps {}
 

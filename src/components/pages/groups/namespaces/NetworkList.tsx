@@ -1,15 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { Container, Typography, TextField, Button } from "@material-ui/core";
+import {
+    Button,
+    Container,
+    Table,
+    TableContainer,
+    TextField,
+    Typography,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    TablePagination,
+    makeStyles,
+    Theme,
+    createStyles,
+} from "@material-ui/core";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
-import { Network } from "../../../../service/client/system/types";
 import { useGlobalState } from "../../../../App";
+import { Network } from "../../../../service/client/system/types";
+import { HeadMenuActive, HeadMenu } from "./HeadMenu";
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        subSection: {
+            marginTop: 10,
+        },
+    })
+);
 
 export interface NetworkListPageProps {}
 
 export function NetworkListPage(props: NetworkListPageProps) {
+    const classes = useStyles();
     const history = useHistory();
     const [client] = useGlobalState("client");
     const { groupID, namespaceID } = useParams();
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const [newNet, setNewNet] = useState({
         meta: {
@@ -82,10 +109,33 @@ export function NetworkListPage(props: NetworkListPageProps) {
         }
     };
 
+    const handleClickTableRow = (id: string) => {
+        history.push(
+            `/groups/${groupID}/namespaces/${namespaceID}/networks/${id}`
+        );
+    };
+
+    const handleChangePage = (event: unknown, newPage: number) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
     return (
         <Container>
-            <Typography variant="h4">
-                {`Group>${groupID} Namespace>${namespaceID} Network> `}
+            <Typography variant="h4">Network</Typography>
+            <HeadMenu
+                active={HeadMenuActive.NetworkList}
+                groupID={groupID}
+                namespaceID={namespaceID}
+            />
+
+            <Typography variant="h5" className={classes.subSection}>
+                Network Create
             </Typography>
             <div>
                 <TextField
@@ -112,13 +162,66 @@ export function NetworkListPage(props: NetworkListPageProps) {
                     Create
                 </Button>
             </div>
-            {netList.map((net, k) => {
-                return (
-                    <li key={k}>
-                        {net.meta.name} {net.spec.ipv4CIDR}
-                    </li>
-                );
-            })}
+
+            <Typography variant="h5" className={classes.subSection}>
+                Network List
+            </Typography>
+            <TableContainer>
+                <Table stickyHeader aria-label="sticky table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell key="id" align="left">
+                                ID
+                            </TableCell>
+                            <TableCell key="name" align="left">
+                                Name
+                            </TableCell>
+                            <TableCell key="ipv4CIDR" align="left">
+                                IPv4 CIDR
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {netList
+                            .slice(
+                                page * rowsPerPage,
+                                page * rowsPerPage + rowsPerPage
+                            )
+                            .map((net) => {
+                                return (
+                                    <TableRow
+                                        hover
+                                        role="checkbox"
+                                        tabIndex={-1}
+                                        key={net.meta.id}
+                                        onClick={() =>
+                                            handleClickTableRow(net.meta.id)
+                                        }
+                                    >
+                                        <TableCell align="left">
+                                            {net.meta.id}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {net.meta.name}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {net.spec.ipv4CIDR}
+                                        </TableCell>
+                                    </TableRow>
+                                );
+                            })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+            <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={netList.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+            />
         </Container>
     );
 }
