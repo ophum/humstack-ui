@@ -13,12 +13,20 @@ import {
     makeStyles,
     Theme,
     createStyles,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import { useGlobalState } from "../../../../App";
 import { Network } from "../../../../service/client/system/types";
 import { HeadMenuActive, HeadMenu } from "./HeadMenu";
+import {
+    NetworkV0Annotation,
+    NetworkV0NetworkType,
+} from "../../../../service/client/system/annotations";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -43,6 +51,7 @@ export function NetworkListPage(props: NetworkListPageProps) {
             id: "",
             group: groupID,
             namespace: namespaceID,
+            annotations: {} as { [key: string]: string },
         },
         spec: {
             ipv4CIDR: "",
@@ -82,6 +91,20 @@ export function NetworkListPage(props: NetworkListPageProps) {
         setNewNet(updateNet);
     };
 
+    const handleChangeNewNetNetworkType = (
+        e: React.ChangeEvent<{ value: unknown }>
+    ) => {
+        const updateNet = {
+            ...newNet,
+        };
+        if (!updateNet.meta.annotations) {
+            updateNet.meta.annotations = {};
+        }
+        updateNet.meta.annotations[NetworkV0Annotation.NetworkType] = e.target
+            .value as string;
+        setNewNet(updateNet);
+    };
+
     const handleChangeNewNetIPv4CIDR = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -99,6 +122,20 @@ export function NetworkListPage(props: NetworkListPageProps) {
             ...newNet,
         };
         updateNet.spec.ipv6CIDR = e.target.value;
+        setNewNet(updateNet);
+    };
+
+    const handleChangeNewNetDefaultGateway = (
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const updateNet = {
+            ...newNet,
+        };
+        if (!updateNet.meta.annotations) {
+            updateNet.meta.annotations = {};
+        }
+        updateNet.meta.annotations[NetworkV0Annotation.DefaultGateway] =
+            e.target.value;
         setNewNet(updateNet);
     };
 
@@ -137,7 +174,7 @@ export function NetworkListPage(props: NetworkListPageProps) {
             <Typography variant="h5" className={classes.subSection}>
                 Network Create
             </Typography>
-            <div>
+            <FormControl>
                 <TextField
                     label="ID"
                     value={newNet.meta.id}
@@ -148,6 +185,25 @@ export function NetworkListPage(props: NetworkListPageProps) {
                     value={newNet.meta.name}
                     onChange={handleChangeNewNetName}
                 />
+                <FormControl>
+                    <InputLabel id="NetworkType">NetworkType</InputLabel>
+                    <Select
+                        labelId="NetworkType"
+                        id="NetworkTypeSelect"
+                        value={
+                            newNet.meta.annotations
+                                ? newNet.meta.annotations[
+                                      NetworkV0Annotation.NetworkType
+                                  ]
+                                : ""
+                        }
+                        onChange={handleChangeNewNetNetworkType}
+                    >
+                        {Object.keys(NetworkV0NetworkType).map((v) => (
+                            <MenuItem value={v}>{v}</MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
                 <TextField
                     label="IPv4CIDR"
                     value={newNet.spec.ipv4CIDR}
@@ -158,10 +214,21 @@ export function NetworkListPage(props: NetworkListPageProps) {
                     value={newNet.spec.ipv6CIDR}
                     onChange={handleChangeNewNetIPv6CIDR}
                 />
+                <TextField
+                    label="DefaultGateway"
+                    value={
+                        newNet.meta.annotations
+                            ? newNet.meta.annotations[
+                                  NetworkV0Annotation.DefaultGateway
+                              ]
+                            : ""
+                    }
+                    onChange={handleChangeNewNetDefaultGateway}
+                />
                 <Button variant="contained" onClick={handleClickCreateButton}>
                     Create
                 </Button>
-            </div>
+            </FormControl>
 
             <Typography variant="h5" className={classes.subSection}>
                 Network List
