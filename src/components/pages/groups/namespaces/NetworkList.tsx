@@ -243,6 +243,9 @@ export function NetworkListPage(props: NetworkListPageProps) {
                             <TableCell key="name" align="left">
                                 Name
                             </TableCell>
+                            <TableCell key="type" align="left">
+                                Type
+                            </TableCell>
                             <TableCell key="ipv4CIDR" align="left">
                                 IPv4 CIDR
                             </TableCell>
@@ -270,6 +273,13 @@ export function NetworkListPage(props: NetworkListPageProps) {
                                         </TableCell>
                                         <TableCell align="left">
                                             {net.meta.name}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {net.meta.annotations &&
+                                                net.meta.annotations[
+                                                    NetworkV0Annotation
+                                                        .NetworkType
+                                                ]}
                                         </TableCell>
                                         <TableCell align="left">
                                             {net.spec.ipv4CIDR}
