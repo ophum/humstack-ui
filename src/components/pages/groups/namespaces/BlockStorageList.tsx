@@ -263,6 +263,9 @@ export function BlockStorageListPage(props: BlockStorageListPageProps) {
                                 Name
                             </TableCell>
                             <TableCell key="name" align="left">
+                                Node
+                            </TableCell>
+                            <TableCell key="name" align="left">
                                 State
                             </TableCell>
                             <TableCell key="type" align="left">
@@ -295,6 +298,13 @@ export function BlockStorageListPage(props: BlockStorageListPageProps) {
                                         </TableCell>
                                         <TableCell align="left">
                                             {bs.meta.name}
+                                        </TableCell>
+                                        <TableCell align="left">
+                                            {bs.meta.annotations &&
+                                                bs.meta.annotations[
+                                                    BlockStorageV0Annotation
+                                                        .NodeName
+                                                ]}
                                         </TableCell>
                                         <TableCell align="left">
                                             {bs.status.state}
