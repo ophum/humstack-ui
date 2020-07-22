@@ -10,6 +10,7 @@ import {
     Theme,
     createStyles,
 } from "@material-ui/core";
+import { HeadMenuActive, HeadMenu } from "./HeadMenu";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -44,50 +45,17 @@ export function NamespacePage(props: NamespacePageProps) {
     };
     useEffect(() => reload(), []);
 
-    const handleClickNetworkListButton = () => {
-        history.push(`/groups/${groupID}/namespaces/${namespaceID}/networks`);
-    };
-
-    const handleClickBlockStorageListButton = () => {
-        history.push(
-            `/groups/${groupID}/namespaces/${namespaceID}/blockstorages`
-        );
-    };
-
-    const handleClickVirtualMachineListButton = () => {
-        history.push(
-            `/groups/${groupID}/namespaces/${namespaceID}/virtualmachines`
-        );
-    };
     return ns.meta === undefined ? (
         <></>
     ) : (
         <>
             <Container>
                 <Typography variant="h4">Namespace: {ns.meta.id}</Typography>
-
-                <Button
-                    variant="contained"
-                    onClick={handleClickNetworkListButton}
-                    className={classes.menuButton}
-                >
-                    NetworkList
-                </Button>
-
-                <Button
-                    variant="contained"
-                    onClick={handleClickBlockStorageListButton}
-                    className={classes.menuButton}
-                >
-                    BlockStorageList
-                </Button>
-                <Button
-                    variant="contained"
-                    onClick={handleClickVirtualMachineListButton}
-                    className={classes.menuButton}
-                >
-                    VirtualMachineList
-                </Button>
+                <HeadMenu
+                    active={HeadMenuActive.Namespace}
+                    groupID={groupID}
+                    namespaceID={namespaceID}
+                />
             </Container>
         </>
     );
