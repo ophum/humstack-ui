@@ -80,17 +80,16 @@ export function HeadMenu(props: HeadMenuProps) {
             </Button>
             <Button
                 variant="contained"
-                onClick={handleClickNetworkListButton}
+                onClick={handleClickVirtualMachineListButton}
                 className={classes.menuButton}
                 color={
-                    props.active === HeadMenuActive.NetworkList
+                    props.active === HeadMenuActive.VirtualMachineList
                         ? "primary"
                         : "default"
                 }
             >
-                NetworkList
+                VirtualMachineList
             </Button>
-
             <Button
                 variant="contained"
                 onClick={handleClickBlockStorageListButton}
@@ -105,15 +104,15 @@ export function HeadMenu(props: HeadMenuProps) {
             </Button>
             <Button
                 variant="contained"
-                onClick={handleClickVirtualMachineListButton}
+                onClick={handleClickNetworkListButton}
                 className={classes.menuButton}
                 color={
-                    props.active === HeadMenuActive.VirtualMachineList
+                    props.active === HeadMenuActive.NetworkList
                         ? "primary"
                         : "default"
                 }
             >
-                VirtualMachineList
+                NetworkList
             </Button>
         </>
     );
