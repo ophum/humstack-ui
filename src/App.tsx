@@ -13,6 +13,7 @@ import { RegisterPage } from "./components/pages/Register";
 import { TopPage } from "./components/pages/Top";
 import { Clients } from "./service/client/clients";
 import { BlockStorageListPage } from "./components/pages/groups/namespaces/BlockStorageList";
+import { VirtualMachineListPage } from "./components/pages/groups/namespaces/VirtualMachineList";
 
 export const { useGlobalState } = createGlobalState({
     client: new Clients("http://localhost:8080"),
@@ -82,6 +83,7 @@ function App() {
                     <Route
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID/virtualmachines"
+                        component={VirtualMachineListPage}
                     />
                     <Route
                         exact
