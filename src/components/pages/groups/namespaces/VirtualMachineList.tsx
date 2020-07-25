@@ -58,9 +58,15 @@ export function VirtualMachineListPage(_: VirtualMachineListPageProps) {
 
     useEffect(() => reload(), []);
 
-    const handleClieckTableRow = (id: string) => {
+    const handleClickNewButton = () => {
         history.push(
-            `/groups/${groupID}/namespaces/${namespaceID}/virtualmachines/${id}`
+            `/groups/${groupID}/namespaces/${namespaceID}/virtualmachines/new`
+        );
+    };
+
+    const handleClickTableRow = (id: string) => {
+        history.push(
+            `/groups/${groupID}/namespaces/${namespaceID}/virtualmachines/show/${id}`
         );
     };
 
@@ -89,6 +95,7 @@ export function VirtualMachineListPage(_: VirtualMachineListPageProps) {
                 variant="contained"
                 className={classes.newButton}
                 color="primary"
+                onClick={handleClickNewButton}
             >
                 New
             </Button>
@@ -121,7 +128,7 @@ export function VirtualMachineListPage(_: VirtualMachineListPageProps) {
                                         tabIndex={-1}
                                         key={vm.meta.id}
                                         onClick={() =>
-                                            handleClieckTableRow(vm.meta.id)
+                                            handleClickTableRow(vm.meta.id)
                                         }
                                     >
                                         <TableCell align="left">

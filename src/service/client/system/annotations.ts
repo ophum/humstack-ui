@@ -15,3 +15,7 @@ export enum BlockStorageV0Annotation {
 export enum BlockStorageV0Type {
     Local = "Local",
 }
+
+export enum VirtualMachineV0Annotation {
+    NodeName = "virtualmachinev0/node_name",
+}
