@@ -18,7 +18,12 @@ export function skelVirtualMachine(): VirtualMachine {
             limitMemory: "",
             blockStorageIDs: [] as string[],
             nics: [] as VirtualMachineNIC[],
-            loginUsers: [] as VirtualMachineLoginUser[],
+            loginUsers: [
+                {
+                    username: "",
+                    sshAuthorizedKeys: [""],
+                },
+            ] as VirtualMachineLoginUser[],
             actionState: VirtualMachineActionState.PowerOn,
         },
         status: {
