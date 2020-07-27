@@ -18,12 +18,16 @@ import {
 import React, { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
 import { useGlobalState } from "../../../../App";
-import { VirtualMachineV0Annotation } from "../../../../service/client/system/annotations";
+import {
+    VirtualMachineV0Annotation,
+    NetworkV0Annotation,
+} from "../../../../service/client/system/annotations";
 import {
     BlockStorage,
     Network,
     Node,
     VirtualMachineNIC,
+    BlockStorageState,
 } from "../../../../service/client/system/types";
 import { skelVirtualMachine } from "../../../../service/client/system/utils";
 import { HeadMenu, HeadMenuActive } from "./HeadMenu";
@@ -95,7 +99,11 @@ export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
                     return;
                 }
 
-                setBSList(res.data.blockstorages);
+                setBSList(
+                    res.data.blockstorages.filter(
+                        (bs) => bs.status.state !== BlockStorageState.Used
+                    )
+                );
             });
         client
             .SystemV0()
@@ -246,6 +254,45 @@ export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
         setAttachedNetList(attachedNetList.filter((_, i) => i !== index));
     };
 
+    const handleChangeAttachedNetIPv4Address = (
+        index: number,
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (index < 0 || index >= attachedNetList.length) {
+            return;
+        }
+        const updateAttachedNetList = [...attachedNetList];
+        updateAttachedNetList[index].nic.ipv4Address = e.target.value;
+        setAttachedNetList(updateAttachedNetList);
+    };
+
+    const handleChangeAttachedNetGateway4 = (
+        index: number,
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (index < 0 || index >= attachedNetList.length) {
+            return;
+        }
+
+        const updateAttachedNetList = [...attachedNetList];
+        updateAttachedNetList[index].nic.defaultGateway = e.target.value;
+        setAttachedNetList(updateAttachedNetList);
+    };
+
+    const handleChangeAttachedNetNameserver = (
+        index: number,
+        e: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        if (index < 0 || index >= attachedNetList.length) {
+            return;
+        }
+        const updateAttachedNetList = [...attachedNetList];
+        if (updateAttachedNetList[index].nic.nameservers.length === 0) {
+            updateAttachedNetList[index].nic.nameservers.push("");
+        }
+        updateAttachedNetList[index].nic.nameservers[0] = e.target.value;
+        setAttachedNetList(updateAttachedNetList);
+    };
     const handleChangeNewVMUsername = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
@@ -450,9 +497,48 @@ export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
                                     {net.network.spec.ipv4CIDR}
                                 </Typography>
                                 <FormControl>
-                                    <TextField label="ipv4 address" />
-                                    <TextField label="ipv6 address" />
-                                    <TextField label="nameserver" />
+                                    <TextField
+                                        label="ipv4 address"
+                                        value={net.nic.ipv4Address}
+                                        onChange={(
+                                            e: React.ChangeEvent<
+                                                HTMLInputElement
+                                            >
+                                        ) =>
+                                            handleChangeAttachedNetIPv4Address(
+                                                i,
+                                                e
+                                            )
+                                        }
+                                    />
+                                    <TextField
+                                        label="gateway4"
+                                        value={net.nic.defaultGateway}
+                                        onChange={(
+                                            e: React.ChangeEvent<
+                                                HTMLInputElement
+                                            >
+                                        ) =>
+                                            handleChangeAttachedNetGateway4(
+                                                i,
+                                                e
+                                            )
+                                        }
+                                    />
+                                    <TextField
+                                        label="nameserver"
+                                        value={net.nic.nameservers[0]}
+                                        onChange={(
+                                            e: React.ChangeEvent<
+                                                HTMLInputElement
+                                            >
+                                        ) =>
+                                            handleChangeAttachedNetNameserver(
+                                                i,
+                                                e
+                                            )
+                                        }
+                                    />
                                 </FormControl>
                             </CardContent>
                             <CardActions>

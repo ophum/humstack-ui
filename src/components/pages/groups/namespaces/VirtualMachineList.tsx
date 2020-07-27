@@ -13,11 +13,15 @@ import {
     createStyles,
     Theme,
     Button,
+    Chip,
 } from "@material-ui/core";
 import { HeadMenu, HeadMenuActive } from "./HeadMenu";
 import { useParams, useHistory } from "react-router";
 import { useGlobalState } from "../../../../App";
-import { VirtualMachine } from "../../../../service/client/system/types";
+import {
+    VirtualMachine,
+    VirtualmachineState,
+} from "../../../../service/client/system/types";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -138,7 +142,9 @@ export function VirtualMachineListPage(_: VirtualMachineListPageProps) {
                                             {vm.meta.name}
                                         </TableCell>
                                         <TableCell align="left">
-                                            {vm.status.state}
+                                            <VirtualMachineStateChip
+                                                state={vm.status.state}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -157,4 +163,18 @@ export function VirtualMachineListPage(_: VirtualMachineListPageProps) {
             />
         </Container>
     );
+}
+
+interface VirtualMachineStateChipProps {
+    state: VirtualmachineState;
+}
+
+function VirtualMachineStateChip(props: VirtualMachineStateChipProps) {
+    switch (props.state) {
+        case VirtualmachineState.Running:
+            return <Chip label="Running" color="primary" />;
+        case VirtualmachineState.Pending:
+            return <Chip label="Pending" color="secondary" />;
+    }
+    return <></>;
 }
