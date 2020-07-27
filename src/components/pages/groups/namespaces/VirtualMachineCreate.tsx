@@ -47,6 +47,9 @@ interface AttachedNetwork {
     nic: VirtualMachineNIC;
 }
 
+const VCPUList = ["1000m", "2000m", "4000m", "8000m"];
+const MemoryList = ["256M", "512M", "1G", "2G", "4G", "8G", "16G", "32G"];
+
 export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
     const classes = useStyles();
     const history = useHistory();
@@ -66,6 +69,8 @@ export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
         ...skelVirtualMachine(),
     });
 
+    const [selectedVCPUS, setSelectedVCPUS] = useState("");
+    const [selectedMemory, setSelectedMemory] = useState("");
     const [selectedBSID, setSelectedBSID] = useState("");
     const [selectedNetID, setSelectedNetID] = useState("");
 
@@ -128,6 +133,18 @@ export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
         updateNewVM.meta.annotations[VirtualMachineV0Annotation.NodeName] = e
             .target.value as string;
         setNewVM(updateNewVM);
+    };
+
+    const handleChangeSelectedVCPUS = (
+        e: React.ChangeEvent<{ value: unknown }>
+    ) => {
+        setSelectedVCPUS(e.target.value as string);
+    };
+
+    const handleChangeSelectedMemory = (
+        e: React.ChangeEvent<{ value: unknown }>
+    ) => {
+        setSelectedMemory(e.target.value as string);
     };
 
     const handleChangeSelectedBSID = (
@@ -247,6 +264,12 @@ export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
 
     const handleClickCreateVMButton = async () => {
         const vm = { ...newVM };
+        vm.meta.group = groupID;
+        vm.meta.namespace = namespaceID;
+        vm.spec.limitVcpus = selectedVCPUS;
+        vm.spec.limitMemory = selectedMemory;
+        vm.spec.requestVcpus = "1m";
+        vm.spec.requestMemory = "1M";
         attachedBSList.map((bs) => {
             vm.spec.blockStorageIDs.push(bs.meta.id);
         });
@@ -301,6 +324,40 @@ export function VirtualMachineCreatePage(_: VirtualMachineCreatePageProps) {
                             {nodeList.map((node) => (
                                 <MenuItem value={node.meta.id}>
                                     {node.meta.id}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </FormControl>
+            </Paper>
+            <Paper className={classes.paper}>
+                <FormControl className={classes.formControl}>
+                    <FormControl>
+                        <InputLabel id="VCPUS">Vcpus</InputLabel>
+                        <Select
+                            labelId="VCPUS"
+                            id="VCPUSSelect"
+                            value={selectedVCPUS}
+                            onChange={handleChangeSelectedVCPUS}
+                        >
+                            {VCPUList.map((cpu, i) => (
+                                <MenuItem key={i} value={cpu}>
+                                    {cpu}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                    <FormControl>
+                        <InputLabel id="Memory">Memory</InputLabel>
+                        <Select
+                            labelId="Memory"
+                            id="MemorySelect"
+                            value={selectedMemory}
+                            onChange={handleChangeSelectedMemory}
+                        >
+                            {MemoryList.map((m, i) => (
+                                <MenuItem key={i} value={m}>
+                                    {m}
                                 </MenuItem>
                             ))}
                         </Select>
