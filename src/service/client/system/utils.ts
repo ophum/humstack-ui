@@ -4,8 +4,20 @@ import {
     VirtualMachineActionState,
     VirtualMachineLoginUser,
     VirtualmachineState,
+    Network,
 } from "./types";
 import { skelMeta } from "../meta/utils";
+
+export function skelNetwork(): Network {
+    return {
+        meta: skelMeta(),
+        spec: {
+            ipv4CIDR: "",
+            ipv6CIDR: "",
+            id: "",
+        },
+    };
+}
 
 export function skelVirtualMachine(): VirtualMachine {
     return {
