@@ -16,6 +16,7 @@ import { BlockStorageListPage } from "./components/pages/groups/namespaces/Block
 import { VirtualMachineListPage } from "./components/pages/groups/namespaces/VirtualMachineList";
 import { VirtualMachineCreatePage } from "./components/pages/groups/namespaces/VirtualMachineCreate";
 import { NetworkPage } from "./components/pages/groups/namespaces/Network";
+import { BlockStoragePage } from "./components/pages/groups/namespaces/BlockStorage";
 
 export const { useGlobalState } = createGlobalState({
     client: new Clients(
@@ -86,6 +87,7 @@ function App() {
                     <Route
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID/blockstorages/:blockstorageID"
+                        component={BlockStoragePage}
                     />
                     <Route
                         exact

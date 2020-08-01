@@ -5,6 +5,9 @@ import {
     VirtualMachineLoginUser,
     VirtualmachineState,
     Network,
+    BlockStorage,
+    BlockStorageFromType,
+    BlockStorageState,
 } from "./types";
 import { skelMeta } from "../meta/utils";
 
@@ -15,6 +18,29 @@ export function skelNetwork(): Network {
             ipv4CIDR: "",
             ipv6CIDR: "",
             id: "",
+        },
+    };
+}
+
+export function skelBlockStorage(): BlockStorage {
+    return {
+        meta: skelMeta(),
+        spec: {
+            requestSize: "",
+            limitSize: "",
+            from: {
+                type: BlockStorageFromType.Empty,
+                baseImage: {
+                    imageName: "",
+                    tag: "",
+                },
+                http: {
+                    url: "",
+                },
+            },
+        },
+        status: {
+            state: BlockStorageState.Unknown,
         },
     };
 }

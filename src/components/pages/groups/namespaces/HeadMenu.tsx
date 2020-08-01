@@ -16,6 +16,7 @@ export enum HeadMenuActive {
     NetworkList,
     Network,
     BlockStorageList,
+    BlockStorage,
     VirtualMachineList,
     VirtualMachineCreate,
 }
