@@ -113,6 +113,14 @@ export function BlockStoragePage(_: BlockStoragePageProps) {
                         </TableRow>
                         <TableRow>
                             <TableCell component="th" scope="row">
+                                state
+                            </TableCell>
+                            <TableCell align="left">
+                                {bs.status.state}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell component="th" scope="row">
                                 requestSize/limitSize
                             </TableCell>
                             <TableCell align="left">
