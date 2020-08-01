@@ -17,6 +17,7 @@ import { VirtualMachineListPage } from "./components/pages/groups/namespaces/Vir
 import { VirtualMachineCreatePage } from "./components/pages/groups/namespaces/VirtualMachineCreate";
 import { NetworkPage } from "./components/pages/groups/namespaces/Network";
 import { BlockStoragePage } from "./components/pages/groups/namespaces/BlockStorage";
+import { VirtualMachinePage } from "./components/pages/groups/namespaces/VirtualMachine";
 
 export const { useGlobalState } = createGlobalState({
     client: new Clients(
@@ -102,6 +103,7 @@ function App() {
                     <Route
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID/virtualmachines/show/:virtualmachineID"
+                        component={VirtualMachinePage}
                     />
                 </Switch>
             </Router>

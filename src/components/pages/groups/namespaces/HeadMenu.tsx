@@ -18,6 +18,7 @@ export enum HeadMenuActive {
     BlockStorageList,
     BlockStorage,
     VirtualMachineList,
+    VirtualMachine,
     VirtualMachineCreate,
 }
 
