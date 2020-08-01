@@ -17,88 +17,84 @@ import { VirtualMachineListPage } from "./components/pages/groups/namespaces/Vir
 import { VirtualMachineCreatePage } from "./components/pages/groups/namespaces/VirtualMachineCreate";
 
 export const { useGlobalState } = createGlobalState({
-    client: new Clients("http://localhost:8080"),
-    isLogin: false,
-    selectedIDs: {
-        groupID: "",
-        namespaceID: "",
-    },
+  client: new Clients(
+    !process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL === ""
+      ? "http://localhost:8080"
+      : process.env.REACT_APP_API_URL
+  ),
+  isLogin: false,
+  selectedIDs: {
+    groupID: "",
+    namespaceID: "",
+  },
 });
 
 const history = createBrowserHistory();
 
 function App() {
-    const [client] = useGlobalState("client");
-    const [isLogin, setIsLogin] = useGlobalState("isLogin");
+  const [client] = useGlobalState("client");
+  const [isLogin, setIsLogin] = useGlobalState("isLogin");
 
-    const logout = () => {
-        setIsLogin(false);
-    };
+  const logout = () => {
+    setIsLogin(false);
+  };
 
-    return (
-        <>
-            <CssBaseline />
-            <Router history={history}>
-                <Header
-                    title="humstack"
-                    isLogin={isLogin}
-                    logoutProcess={logout}
-                />
-                <Switch>
-                    <Route exact path="/" component={TopPage} />
-                    <Route exact path="/login" component={LoginPage} />
-                    <Route exact path="/register" component={RegisterPage} />
-                    <Route
-                        exact
-                        path="/groups/:groupID"
-                        component={GroupPage}
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces"
-                        component={NamespaceListPage}
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID"
-                        component={NamespacePage}
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID/networks"
-                        component={NetworkListPage}
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID/networks/:networkID"
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID/blockstorages"
-                        component={BlockStorageListPage}
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID/blockstorages/:blockstorageID"
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID/virtualmachines"
-                        component={VirtualMachineListPage}
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID/virtualmachines/new"
-                        component={VirtualMachineCreatePage}
-                    />
-                    <Route
-                        exact
-                        path="/groups/:groupID/namespaces/:namespaceID/virtualmachines/show/:virtualmachineID"
-                    />
-                </Switch>
-            </Router>
-        </>
-    );
+  return (
+    <>
+      <CssBaseline />
+      <Router history={history}>
+        <Header title="humstack" isLogin={isLogin} logoutProcess={logout} />
+        <Switch>
+          <Route exact path="/" component={TopPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/register" component={RegisterPage} />
+          <Route exact path="/groups/:groupID" component={GroupPage} />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces"
+            component={NamespaceListPage}
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID"
+            component={NamespacePage}
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID/networks"
+            component={NetworkListPage}
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID/networks/:networkID"
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID/blockstorages"
+            component={BlockStorageListPage}
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID/blockstorages/:blockstorageID"
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID/virtualmachines"
+            component={VirtualMachineListPage}
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID/virtualmachines/new"
+            component={VirtualMachineCreatePage}
+          />
+          <Route
+            exact
+            path="/groups/:groupID/namespaces/:namespaceID/virtualmachines/show/:virtualmachineID"
+          />
+        </Switch>
+      </Router>
+    </>
+  );
 }
 
 export default App;
