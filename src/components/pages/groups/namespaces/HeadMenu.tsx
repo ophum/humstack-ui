@@ -20,6 +20,9 @@ export enum HeadMenuActive {
     VirtualMachineList,
     VirtualMachine,
     VirtualMachineCreate,
+    VirtualRouterList,
+    VirtualRouter,
+    VirtualRouterCreate,
 }
 
 export interface HeadMenuProps {
@@ -57,6 +60,12 @@ export function HeadMenu(props: HeadMenuProps) {
     const handleClickVirtualMachineListButton = () => {
         history.push(
             `/groups/${props.groupID}/namespaces/${props.namespaceID}/virtualmachines`
+        );
+    };
+
+    const handleClickVirtualRouterListButton = () => {
+        history.push(
+            `/groups/${props.groupID}/namespaces/${props.namespaceID}/virtualrouters`
         );
     };
     return (
@@ -117,6 +126,18 @@ export function HeadMenu(props: HeadMenuProps) {
                 }
             >
                 NetworkList
+            </Button>
+            <Button
+                variant="contained"
+                onClick={handleClickVirtualRouterListButton}
+                className={classes.menuButton}
+                color={
+                    props.active === HeadMenuActive.VirtualRouterList
+                        ? "primary"
+                        : "default"
+                }
+            >
+                VirtualRouterList
             </Button>
         </>
     );

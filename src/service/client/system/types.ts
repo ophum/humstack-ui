@@ -141,3 +141,38 @@ export interface Node {
     spec: NodeSpec;
     status: NodeStatus;
 }
+
+export interface VirtualRouterNIC {
+    networkID: string;
+    ipv4Address: string;
+}
+
+export interface DNATRule {
+    destAddress: string;
+    destPort: number;
+    toDestAddress: string;
+    toDestPort: number;
+}
+
+export interface VirtualRouterSpec {
+    externalGateway: string;
+    externalIP: string;
+    nics: VirtualRouterNIC[];
+    dnatRules: DNATRule[];
+}
+
+export enum VirtualRouterState {
+    Pending = "Pending",
+    Running = "Running",
+}
+
+export interface VirtualRouterStatus {
+    state: VirtualRouterState;
+}
+
+export interface VirtualRouter {
+    meta: Meta;
+
+    spec: VirtualRouterSpec;
+    status: VirtualRouterStatus;
+}

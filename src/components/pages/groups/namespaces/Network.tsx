@@ -57,7 +57,7 @@ export function NetworkPage(_: NetworkPageProps) {
     };
     useEffect(() => {
         reload();
-    }, []);
+    }, [reload]);
 
     const handleClickDeleteButton = async () => {
         const res = await client

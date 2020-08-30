@@ -3,6 +3,7 @@ export enum APIType {
     NetworkV0 = "systemv0/network",
     BlockStorageV0 = "systemv0/blockstorage",
     VirtualMachineV0 = "systemv0/virtualmachine",
+    VirtualRouterV0 = "systemv0/virtualrouter",
     NamespaceV0 = "corev0/namespace",
     GroupV0 = "corev0/group",
 }

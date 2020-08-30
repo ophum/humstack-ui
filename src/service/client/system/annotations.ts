@@ -19,3 +19,7 @@ export enum BlockStorageV0Type {
 export enum VirtualMachineV0Annotation {
     NodeName = "virtualmachinev0/node_name",
 }
+
+export enum VirtualRouterV0Annotation {
+    NodeName = "virtualrouterv0/node_name",
+}

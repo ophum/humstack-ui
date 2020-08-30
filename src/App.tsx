@@ -18,6 +18,9 @@ import { VirtualMachineCreatePage } from "./components/pages/groups/namespaces/V
 import { NetworkPage } from "./components/pages/groups/namespaces/Network";
 import { BlockStoragePage } from "./components/pages/groups/namespaces/BlockStorage";
 import { VirtualMachinePage } from "./components/pages/groups/namespaces/VirtualMachine";
+import { VirtualRouterPage } from "./components/pages/groups/namespaces/VirtualRouter";
+import { VirtualRouterListPage } from "./components/pages/groups/namespaces/VirtualRouterList";
+import { VirtualRouterCreatePage } from "./components/pages/groups/namespaces/VirtualRouterCreate";
 
 export const { useGlobalState } = createGlobalState({
     client: new Clients(
@@ -104,6 +107,21 @@ function App() {
                         exact
                         path="/groups/:groupID/namespaces/:namespaceID/virtualmachines/show/:virtualmachineID"
                         component={VirtualMachinePage}
+                    />
+                    <Route
+                        exact
+                        path="/groups/:groupID/namespaces/:namespaceID/virtualrouters"
+                        component={VirtualRouterListPage}
+                    />
+                    <Route
+                        exact
+                        path="/groups/:groupID/namespaces/:namespaceID/virtualrouters/new"
+                        component={VirtualRouterCreatePage}
+                    />
+                    <Route
+                        exact
+                        path="/groups/:groupID/namespaces/:namespaceID/virtualrouters/show/:virtualrouterID"
+                        component={VirtualRouterPage}
                     />
                 </Switch>
             </Router>

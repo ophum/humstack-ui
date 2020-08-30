@@ -17,13 +17,12 @@ import {
 } from "@material-ui/core";
 import { useGlobalState } from "../../../../App";
 import { useState, useEffect } from "react";
-import { skelVirtualMachine } from "../../../../service/client/system/utils";
+import { skelVirtualRouter } from "../../../../service/client/system/utils";
 import { useParams, useHistory } from "react-router";
 import { HeadMenuActive, HeadMenu } from "./HeadMenu";
-import { VirtualMachineV0Annotation } from "../../../../service/client/system/annotations";
-import { VirtualMachineActionState } from "../../../../service/client/system/types";
+import { VirtualRouterV0Annotation } from "../../../../service/client/system/annotations";
 
-export interface VirtualMachinePageProps {}
+export interface VirtualRouterPageProps {}
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -38,26 +37,26 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     })
 );
-export function VirtualMachinePage(_: VirtualMachinePageProps) {
+export function VirtualRouterPage(_: VirtualRouterPageProps) {
     const classes = useStyles();
     const history = useHistory();
-    const { groupID, namespaceID, virtualmachineID } = useParams();
+    const { groupID, namespaceID, virtualrouterID } = useParams();
 
     const [client] = useGlobalState("client");
 
-    const [vm, setVM] = useState(skelVirtualMachine());
+    const [vr, setVR] = useState(skelVirtualRouter());
 
     const reload = useCallback(async () => {
         const res = await client
             .SystemV0()
-            .VirtualMachine()
-            .Get(groupID, namespaceID, virtualmachineID);
+            .VirtualRouter()
+            .Get(groupID, namespaceID, virtualrouterID);
         if (!res.ok || !res.data) {
             return;
         }
 
-        setVM(res.data.virtualmachine);
-    }, [client, groupID, namespaceID, virtualmachineID]);
+        setVR(res.data.virtualrouter);
+    }, [client, groupID, namespaceID, virtualrouterID]);
     useEffect(() => {
         reload();
     }, [reload]);
@@ -65,14 +64,14 @@ export function VirtualMachinePage(_: VirtualMachinePageProps) {
     const handleClickDeleteButton = async () => {
         const res = await client
             .SystemV0()
-            .VirtualMachine()
-            .Delete(groupID, namespaceID, virtualmachineID);
+            .VirtualRouter()
+            .Delete(groupID, namespaceID, virtualrouterID);
         if (!res.ok) {
             return;
         }
 
         history.push(
-            `/groups/${groupID}/namespaces/${namespaceID}/virtualmachines`
+            `/groups/${groupID}/namespaces/${namespaceID}/virtualrouters`
         );
     };
 
@@ -87,30 +86,11 @@ export function VirtualMachinePage(_: VirtualMachinePageProps) {
         );
     };
 
-    const handleClickPowerOnButton = async () => {
-        vm.spec.actionState = VirtualMachineActionState.PowerOn;
-        const res = await client.SystemV0().VirtualMachine().Update(vm);
-        if (!res) {
-            return;
-        }
-
-        reload();
-    };
-
-    const handleClickPowerOffButton = async () => {
-        vm.spec.actionState = VirtualMachineActionState.PowerOff;
-        const res = await client.SystemV0().VirtualMachine().Update(vm);
-        if (!res) {
-            return;
-        }
-
-        reload();
-    };
     return (
         <Container>
-            <Typography variant="h4">VirtualMachine</Typography>
+            <Typography variant="h4">VirtualRouter</Typography>
             <HeadMenu
-                active={HeadMenuActive.VirtualMachine}
+                active={HeadMenuActive.VirtualRouter}
                 groupID={groupID}
                 namespaceID={namespaceID}
             />
@@ -118,28 +98,6 @@ export function VirtualMachinePage(_: VirtualMachinePageProps) {
             <Typography variant="h5" className={classes.subSection}>
                 Details
             </Typography>
-            {(() => {
-                if (vm.spec.actionState === VirtualMachineActionState.PowerOn) {
-                    return (
-                        <Button
-                            variant="outlined"
-                            color="primary"
-                            onClick={handleClickPowerOffButton}
-                        >
-                            PowerOff
-                        </Button>
-                    );
-                }
-                return (
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={handleClickPowerOnButton}
-                    >
-                        PowerOn
-                    </Button>
-                );
-            })()}
             <Button
                 variant="outlined"
                 className={classes.deleteButton}
@@ -158,63 +116,36 @@ export function VirtualMachinePage(_: VirtualMachinePageProps) {
                             <TableCell component="th" scope="row">
                                 id
                             </TableCell>
-                            <TableCell align="left">{vm.meta.id}</TableCell>
+                            <TableCell align="left">{vr.meta.id}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell component="th" scope="row">
                                 name
                             </TableCell>
-                            <TableCell align="left">{vm.meta.name}</TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                actionState
-                            </TableCell>
-                            <TableCell align="left">
-                                {vm.spec.actionState}
-                            </TableCell>
+                            <TableCell align="left">{vr.meta.name}</TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell component="th" scope="row">
                                 state
                             </TableCell>
                             <TableCell align="left">
-                                {vm.status.state}
+                                {vr.status.state}
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell component="th" scope="row">
-                                requestVcpus/limitVcpus
+                                externalGateway
                             </TableCell>
                             <TableCell align="left">
-                                {vm.spec.requestVcpus}/{vm.spec.limitVcpus}
+                                {vr.spec.externalGateway}
                             </TableCell>
                         </TableRow>
                         <TableRow>
                             <TableCell component="th" scope="row">
-                                requestMemory/limitMemory
+                                externalIP
                             </TableCell>
                             <TableCell align="left">
-                                {vm.spec.requestMemory}/{vm.spec.limitMemory}
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell component="th" scope="row">
-                                blockStorageIDs
-                            </TableCell>
-                            <TableCell align="left">
-                                <List>
-                                    {vm.spec.blockStorageIDs.map((id) => (
-                                        <ListItem
-                                            key={id}
-                                            onClick={() =>
-                                                moveBlockStorageByID(id)
-                                            }
-                                        >
-                                            {id}
-                                        </ListItem>
-                                    ))}
-                                </List>
+                                {vr.spec.externalIP}
                             </TableCell>
                         </TableRow>
                         <TableRow>
@@ -223,7 +154,7 @@ export function VirtualMachinePage(_: VirtualMachinePageProps) {
                             </TableCell>
                             <TableCell align="left">
                                 <List>
-                                    {vm.spec.nics.map((nic) => {
+                                    {vr.spec.nics.map((nic) => {
                                         return (
                                             <ListItem>
                                                 <List>
@@ -234,27 +165,12 @@ export function VirtualMachinePage(_: VirtualMachinePageProps) {
                                                             )
                                                         }
                                                     >
-                                                        ID: {nic.networkID}
+                                                        NetworkID:{" "}
+                                                        {nic.networkID}
                                                     </ListItem>
                                                     <ListItem>
                                                         IPv4Address:{" "}
                                                         {nic.ipv4Address}
-                                                    </ListItem>
-                                                    <ListItem>
-                                                        DefaultGateway:{" "}
-                                                        {nic.defaultGateway}
-                                                    </ListItem>
-                                                    <ListItem>
-                                                        Nameservers:
-                                                        <List>
-                                                            {nic.nameservers.map(
-                                                                (ns) => (
-                                                                    <ListItem>
-                                                                        {ns}
-                                                                    </ListItem>
-                                                                )
-                                                            )}
-                                                        </List>
                                                     </ListItem>
                                                 </List>
                                             </ListItem>
@@ -268,9 +184,9 @@ export function VirtualMachinePage(_: VirtualMachinePageProps) {
                                 node
                             </TableCell>
                             <TableCell align="left">
-                                {vm.meta.annotations &&
-                                    vm.meta.annotations[
-                                        VirtualMachineV0Annotation.NodeName
+                                {vr.meta.annotations &&
+                                    vr.meta.annotations[
+                                        VirtualRouterV0Annotation.NodeName
                                     ]}
                             </TableCell>
                         </TableRow>

@@ -8,6 +8,11 @@ import {
     BlockStorage,
     BlockStorageFromType,
     BlockStorageState,
+    VirtualRouterSpec,
+    VirtualRouter,
+    VirtualRouterNIC,
+    DNATRule,
+    VirtualRouterState,
 } from "./types";
 import { skelMeta } from "../meta/utils";
 
@@ -66,6 +71,21 @@ export function skelVirtualMachine(): VirtualMachine {
         },
         status: {
             state: VirtualmachineState.Pending,
+        },
+    };
+}
+
+export function skelVirtualRouter(): VirtualRouter {
+    return {
+        meta: skelMeta(),
+        spec: {
+            externalGateway: "",
+            externalIP: "",
+            nics: [] as VirtualRouterNIC[],
+            dnatRules: [] as DNATRule[],
+        },
+        status: {
+            state: VirtualRouterState.Pending,
         },
     };
 }
