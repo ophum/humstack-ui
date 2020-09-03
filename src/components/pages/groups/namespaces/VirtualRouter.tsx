@@ -140,12 +140,40 @@ export function VirtualRouterPage(_: VirtualRouterPageProps) {
                                 {vr.spec.externalGateway}
                             </TableCell>
                         </TableRow>
+
                         <TableRow>
                             <TableCell component="th" scope="row">
-                                externalIP
+                                natGateway
                             </TableCell>
                             <TableCell align="left">
-                                {vr.spec.externalIP}
+                                {vr.spec.natGatewayIP}
+                            </TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell component="th" scope="row">
+                                externalIPs
+                            </TableCell>
+                            <TableCell align="left">
+                                <List>
+                                    {vr.spec.externalIPs.map((eip) => {
+                                        return (
+                                            <ListItem>
+                                                <List>
+                                                    <ListItem>
+                                                        eipid:{" "}
+                                                        {eip.externalIPID}
+                                                    </ListItem>
+                                                    <ListItem>
+                                                        bindAddress:{" "}
+                                                        {
+                                                            eip.bindInternalIPv4Address
+                                                        }
+                                                    </ListItem>
+                                                </List>
+                                            </ListItem>
+                                        );
+                                    })}
+                                </List>
                             </TableCell>
                         </TableRow>
                         <TableRow>

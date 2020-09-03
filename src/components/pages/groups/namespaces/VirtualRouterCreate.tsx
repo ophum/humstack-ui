@@ -138,7 +138,12 @@ export function VirtualRouterCreatePage(_: VirtualRouterCreatePageProps) {
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
         const updateNewVR = { ...newVR };
-        updateNewVR.spec.externalIP = e.target.value;
+        updateNewVR.spec.externalIPs = [
+            {
+                externalIPID: e.target.value,
+                bindInternalIPv4Address: "192.168.10.1",
+            },
+        ];
         setNewVR(updateNewVR);
     };
     const handleChangeNewVRNode = (
@@ -262,7 +267,6 @@ export function VirtualRouterCreatePage(_: VirtualRouterCreatePageProps) {
                     <FormControl>
                         <TextField
                             label="ExternalIP"
-                            value={newVR.spec.externalIP}
                             onChange={handleChangeNewVRExternalIP}
                         />
                     </FormControl>

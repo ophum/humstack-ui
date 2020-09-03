@@ -154,9 +154,15 @@ export interface DNATRule {
     toDestPort: number;
 }
 
+export interface VirtualRouterExternalIP {
+    externalIPID: string;
+    bindInternalIPv4Address: string;
+}
+
 export interface VirtualRouterSpec {
     externalGateway: string;
-    externalIP: string;
+    externalIPs: VirtualRouterExternalIP[];
+    natGatewayIP: string;
     nics: VirtualRouterNIC[];
     dnatRules: DNATRule[];
 }

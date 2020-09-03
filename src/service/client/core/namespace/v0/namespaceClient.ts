@@ -12,10 +12,7 @@ export class NamespaceClient extends HTTPClient {
     async List(groupID: string): Promise<NamespaceListResponse> {
         const res = await this._get(this.getPath(groupID, ""));
 
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Get(
@@ -24,10 +21,7 @@ export class NamespaceClient extends HTTPClient {
     ): Promise<NamespaceGetResponse> {
         const res = await this._get(this.getPath(groupID, namespaceID));
 
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Create(
@@ -38,11 +32,7 @@ export class NamespaceClient extends HTTPClient {
             this.getPath(request.meta.group!, ""),
             request
         );
-
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Update(
@@ -52,10 +42,7 @@ export class NamespaceClient extends HTTPClient {
             this.getPath(request.meta.group!, request.meta.id),
             request
         );
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Delete(
@@ -63,10 +50,7 @@ export class NamespaceClient extends HTTPClient {
         namespaceID: string
     ): Promise<NamespaceDeleteResponse> {
         const res = await this._delete(this.getPath(groupID, namespaceID), {});
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 }
 

@@ -13,6 +13,7 @@ import {
     VirtualRouterNIC,
     DNATRule,
     VirtualRouterState,
+    VirtualRouterExternalIP,
 } from "./types";
 import { skelMeta } from "../meta/utils";
 
@@ -80,7 +81,8 @@ export function skelVirtualRouter(): VirtualRouter {
         meta: skelMeta(),
         spec: {
             externalGateway: "",
-            externalIP: "",
+            externalIPs: [] as VirtualRouterExternalIP[],
+            natGatewayIP: "",
             nics: [] as VirtualRouterNIC[],
             dnatRules: [] as DNATRule[],
         },

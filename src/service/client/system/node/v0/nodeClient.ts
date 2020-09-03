@@ -9,18 +9,12 @@ export class NodeClient extends HTTPClient {
 
     async List(): Promise<NodeListResponse> {
         const res = await this._get("");
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Get(nodeID: string): Promise<NodeGetResponse> {
         const res = await this._get(`${nodeID}`);
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Create() {}

@@ -19,10 +19,7 @@ export class NetworkClient extends HTTPClient {
     ): Promise<NetworkListResponse> {
         const res = await this._get(this.getPath(groupID, namespaceID, ""));
 
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Get(
@@ -34,10 +31,7 @@ export class NetworkClient extends HTTPClient {
             this.getPath(groupID, namespaceID, networkID)
         );
 
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Create(
@@ -51,10 +45,7 @@ export class NetworkClient extends HTTPClient {
             request
         );
 
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Update(
@@ -69,10 +60,7 @@ export class NetworkClient extends HTTPClient {
             request
         );
 
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Delete(
@@ -85,10 +73,7 @@ export class NetworkClient extends HTTPClient {
             {}
         );
 
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 }
 

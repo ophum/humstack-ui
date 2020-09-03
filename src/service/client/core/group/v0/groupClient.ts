@@ -12,19 +12,13 @@ export class GroupClient extends HTTPClient {
 
     async Get(groupID: string): Promise<GroupGetResponse> {
         const res = await this._get(`${groupID}`);
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Create(request: GroupCreateRequest): Promise<GroupCreateResponse> {
         request.meta.apiType = APIType.GroupV0;
         const res = await this._post("", request);
-        return {
-            ok: res.ok,
-            ...(await res.json()),
-        };
+        return HTTPClient._response(res);
     }
 
     async Update() {}

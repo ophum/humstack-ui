@@ -12,6 +12,13 @@ export default class HTTPClient {
         this._setHeader("Authorization", `${type} ${token}`);
     }
 
+    protected static async _response(res: Response): Promise<any> {
+        return {
+            ok: res.ok,
+            ...(await res.json()),
+        };
+    }
+
     protected _setHeader(key: string, value: string) {
         this.headers.set(key, value);
     }
