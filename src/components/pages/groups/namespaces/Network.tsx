@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
     Theme,
     createStyles,
@@ -44,7 +44,7 @@ export function NetworkPage(_: NetworkPageProps) {
 
     const [net, setNet] = useState(skelNetwork());
 
-    const reload = async () => {
+    const reload = useCallback(async () => {
         const res = await client
             .SystemV0()
             .Network()
@@ -54,7 +54,7 @@ export function NetworkPage(_: NetworkPageProps) {
         }
 
         setNet(res.data.network);
-    };
+    }, [client, groupID, namespaceID, networkID]);
     useEffect(() => {
         reload();
     }, [reload]);
